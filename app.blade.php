@@ -3,6 +3,7 @@
     document.write('<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #fff; display: flex; justify-content: center; align-items: center;">Internet terputus, periksa koneksi internet Anda!</div>');
     throw new Error('Internet terputus');
   }
+	 //hahahaha
 </script>
  
  <!DOCTYPE html>

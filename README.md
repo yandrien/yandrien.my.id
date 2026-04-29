@@ -19,8 +19,6 @@ Personal website built with Laravel featuring a blog system, user authentication
 - **Tools:** Composer, Git, cPanel
 
 ### Screenshots
-[Upload 2-3 screenshot halaman home, dashboard, dictionary ke folder `/public/screenshots` terus tampilin di sini]
-
 ![Home](public/screenshots/home.png)
 ![Dashboard](public/screenshots/dashboard.png)
 

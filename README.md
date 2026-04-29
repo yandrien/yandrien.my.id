@@ -21,6 +21,7 @@ Personal website built with Laravel featuring a blog system, user authentication
 ### Screenshots
 ![Home](public/screenshots/home.png)
 ![Dashboard](public/screenshots/dashboard.png)
+![Dictionary](public/screenshots/dictionary.png)
 
 ### Setup Locally
 1. `git clone https://github.com/yandrien/portfolio.git`

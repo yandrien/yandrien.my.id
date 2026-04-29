@@ -1,0 +1,275 @@
+html:
+<!-- Modal Crop -->
+<input type="hidden" name="fotocrop" value="0">
+<div id="crop-modal" class="modal crop-modal">
+<div class="modal-content animate crop-content">
+    <center>
+        <div class="wrapzoom">
+        <button class="zoom-button" id="zoom-in">+</button>
+        <button class="zoom-button" id="zoom-out">-</button>
+        </div>
+
+  <canvas id="crop-canvas"></canvas>
+  <button id="crop-ok" class="signupbtn">OK</button>
+  <button id="crop-cancel" class="cancelbtn">Cancel</button>
+  </center>
+</div>
+</div>
+
+javascript:
+//upload foto
+
+  const fotoInput = document.getElementById('foto-input');
+  const pic = document.getElementById('pic');
+  const cropModal = document.getElementById('crop-modal');
+  const cropCanvas = document.getElementById('crop-canvas');
+  const cropOk = document.getElementById('crop-ok');
+  const cropCancel = document.getElementById('crop-cancel');
+  let ctx, img, cropX, cropY, cropW = 150, cropH = 200, croppedFile = 0;
+
+  fotoInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  
+  //cek ukuran foto
+  if (file.size > 64 * 1024) {
+    alert('Foto tidak boleh lebih besar dari 64KB');
+    fileInput.value = ''; //reset
+    pic.src = '';
+    pic.removeAttribute('src');
+  } else {
+    // lanjutkan proses crop
+  
+  img = new Image();
+  img.onload = () => {
+    const ratio = img.width / img.height;
+    const maxWidth = 400; // atur ukuran maksimal lebar foto
+    const maxHeight = 400; // atur ukuran maksimal tinggi foto
+
+    if (img.width > maxWidth || img.height > maxHeight) {
+      if (ratio > 1) {
+        cropCanvas.width = maxWidth;
+        cropCanvas.height = maxWidth / ratio;
+      } else {
+        cropCanvas.width = maxHeight * ratio;
+        cropCanvas.height = maxHeight;
+      }
+    } else {
+      cropCanvas.width = img.width;
+      cropCanvas.height = img.height;
+    }
+    
+    //menggambar foto pada canvas
+    ctx = cropCanvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, cropCanvas.width, cropCanvas.height);
+    
+
+  // Menghitung ukuran crop default 4x6 cm
+  cropX = (cropCanvas.width - cropW) / 2;
+  cropY = (cropCanvas.height - cropH) / 2;
+
+// Menggambar rectangle crop default
+ctx.strokeStyle = 'red';
+ctx.lineWidth = 2;
+ctx.strokeRect(cropX, cropY, cropW, cropH);
+
+// Membuat area luar crop menjadi agak gelap
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.fillRect(0, 0, cropCanvas.width * scale, cropY * scale); // atas
+    ctx.fillRect(0, cropY * scale + cropH, cropCanvas.width * scale, cropCanvas.height * scale - (cropY * scale + cropH)); // bawah
+    ctx.fillRect(0, cropY * scale, cropX * scale, cropH); // kiri
+    ctx.fillRect(cropX * scale + cropW, cropY * scale, cropCanvas.width * scale - (cropX * scale + cropW), cropH); // kanan
+
+
+
+    //custom drag/crop oleh user dg hp maupun mouse komputer
+
+
+let isDragging = false;
+let mouseX, mouseY;
+
+const handleStart = (e) => {
+  e.preventDefault();
+  const rect = cropCanvas.getBoundingClientRect();
+  const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+  const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+  if (x >= cropX * scale && x <= (cropX + cropW) * scale && y >= cropY * scale && y <= (cropY + cropH) * scale) {
+    isDragging = true;
+    mouseX = x;
+    mouseY = y;
+  }
+};
+
+
+const handleMove = (e) => {
+  e.preventDefault();
+  if (isDragging) {
+    const rect = cropCanvas.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    cropX += (x - mouseX) / scale;
+    cropY += (y - mouseY) / scale;
+    mouseX = x;
+    mouseY = y;
+    ctx.clearRect(0, 0, cropCanvas.width * scale, cropCanvas.height * scale);
+    ctx.drawImage(img, 0, 0, cropCanvas.width * scale, cropCanvas.height * scale);
+    // Membuat area luar crop menjadi agak gelap
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.fillRect(0, 0, cropCanvas.width * scale, cropY * scale); // atas
+    ctx.fillRect(0, cropY * scale + cropH, cropCanvas.width * scale, cropCanvas.height * scale - (cropY * scale + cropH)); // bawah
+    ctx.fillRect(0, cropY * scale, cropX * scale, cropH); // kiri
+    ctx.fillRect(cropX * scale + cropW, cropY * scale, cropCanvas.width * scale - (cropX * scale + cropW), cropH); // kanan
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 2;
+    //buat kotak merah
+    ctx.strokeRect(cropX * scale, cropY * scale, cropW, cropH);
+  }
+};
+
+
+
+const handleEnd = () => {
+  isDragging = false;
+};
+
+
+  cropCanvas.addEventListener('touchstart', handleStart);
+  cropCanvas.addEventListener('mousedown', handleStart);
+  cropCanvas.addEventListener('touchmove', handleMove);
+  cropCanvas.addEventListener('mousemove', handleMove);
+  cropCanvas.addEventListener('touchend', handleEnd);
+  cropCanvas.addEventListener('mouseup', handleEnd);
+
+  cropModal.style.display = 'block';
+}
+  img.src = window.URL.createObjectURL(file);
+}
+});
+
+cropOk.addEventListener('click', () => {
+  const croppedCanvas = document.createElement('canvas');
+  croppedCanvas.width = 80;
+  croppedCanvas.height = 100;
+  const croppedCtx = croppedCanvas.getContext('2d');
+  const ratio = cropW / cropH;
+  if (ratio > 0.8) {
+    croppedCtx.drawImage(img, cropX * (img.width / cropCanvas.width), cropY * (img.height / cropCanvas.height), cropW * (img.width / cropCanvas.width), cropW * (img.height / cropCanvas.height) / ratio, 0, 0, 80, 80 / ratio);
+  } else {
+    croppedCtx.drawImage(img, cropX * (img.width / cropCanvas.width), cropY * (img.height / cropCanvas.height), cropH * (img.width / cropCanvas.width) * ratio, cropH * (img.height / cropCanvas.height), 0, 0, 80 * ratio, 100);
+  }
+  pic.src = croppedCanvas.toDataURL();
+  
+  // simpan blob ke variabel croppedFile
+  cropCanvas.toBlob((blob) => {
+  croppedFile = blob;
+  });
+  
+  //kirim hasil crop saat disubmit ke server
+  document.getElementById('formd').addEventListener('submit', (e) => {
+      const formData = new FormData(e.target);
+      formData.append('foto-crop', croppedFile);
+  });
+  
+  cropModal.style.display = 'none';
+  
+});
+
+
+//jika cancel kembalikan ke default
+cropCancel.addEventListener('click', () => {
+  cropModal.style.display = 'none';
+  fotoInput.value = '';
+  pic.src = '';
+  pic.removeAttribute('src');
+  scale = 1; // reset scale ke default
+  cropX = (cropCanvas.width - cropW) / 2; // reset cropX ke default
+  cropY = (cropCanvas.height - cropH) / 2; // reset cropY ke default
+  ctx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
+  ctx.drawImage(img, 0, 0, cropCanvas.width, cropCanvas.height);
+  ctx.strokeStyle = 'red';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(cropX, cropY, cropW, cropH);
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+  ctx.fillRect(0, 0, cropCanvas.width, cropY); 
+  ctx.fillRect(0, cropY + cropH, cropCanvas.width, cropCanvas.height - (cropY + cropH)); 
+  ctx.fillRect(0, cropY, cropX, cropH); 
+  ctx.fillRect(cropX + cropW, cropY, cropCanvas.width - (cropX + cropW), cropH);
+});
+
+// ...
+
+//zoom-in zoom-out foto
+let scale = 1;
+let imgz = img; // gunakan img yang sudah ada
+
+document.getElementById('zoom-in').onclick = function() {
+  scale += 0.5;
+  ctx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
+  ctx.drawImage(img, 0, 0, cropCanvas.width * scale, cropCanvas.height * scale);
+  // Menggambar rectangle crop default
+  ctx.strokeStyle = 'red';
+  ctx.lineWidth = 2;
+  //buat kotak merah
+  ctx.strokeRect(cropX * scale, cropY * scale, cropW, cropH);
+  // Membuat area luar crop menjadi agak gelap
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.fillRect(0, 0, cropCanvas.width * scale, cropY * scale); // atas
+    ctx.fillRect(0, cropY * scale + cropH, cropCanvas.width * scale, cropCanvas.height * scale - (cropY * scale + cropH)); // bawah
+    ctx.fillRect(0, cropY * scale, cropX * scale, cropH); // kiri
+    ctx.fillRect(cropX * scale + cropW, cropY * scale, cropCanvas.width * scale - (cropX * scale + cropW), cropH); // kanan
+};
+
+document.getElementById('zoom-out').onclick = function() {
+  if (scale > 1) {
+    scale -= 0.5;
+    ctx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
+    ctx.drawImage(img, 0, 0, cropCanvas.width * scale, cropCanvas.height * scale);
+    // Menggambar rectangle crop default
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 2;
+    //buat kotak merah
+    ctx.strokeRect(cropX * scale, cropY * scale, cropW, cropH);
+    // Membuat area luar crop menjadi agak gelap
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.fillRect(0, 0, cropCanvas.width * scale, cropY * scale); // atas
+    ctx.fillRect(0, cropY * scale + cropH, cropCanvas.width * scale, cropCanvas.height * scale - (cropY * scale + cropH)); // bawah
+    ctx.fillRect(0, cropY * scale, cropX * scale, cropH); // kiri
+    ctx.fillRect(cropX * scale + cropW, cropY * scale, cropCanvas.width * scale - (cropX * scale + cropW), cropH); // kanan
+  }
+};
+
+css:
+.crop-modal{
+    background-color: rgb(0,0,0,1) !important;
+    z-index: 2 !important;
+}
+.crop-content{
+    background-color: rgb(0,0,0,1) !important;
+}
+
+.zoom-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: #4CAF50;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+}
+
+.zoom-button:hover {
+  background-color: #3e8e41;
+}
+
+.wrapzoom {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

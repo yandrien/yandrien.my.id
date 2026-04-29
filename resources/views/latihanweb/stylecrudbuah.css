@@ -1,0 +1,1043 @@
+body {
+  height: 1000px;
+  font-family: Arial, Helvetica, sans-serif;
+  /*font-family: "Times New Roman", Times, serif;
+  font-family: "Lucida Console", "Courier New", monospace;*/
+  background-color:#f1f1f1;
+  font-size:9px;
+}
+
+/*memasukkan padding dan border dalam total width dan heigh elemen, diterapkan untuk seluruhnya*/
+* { box-sizing: border-box; }
+
+
+.no-fouc {
+  display: none;
+}
+
+
+/*show-hide-img-action*/
+.arrow {
+  border: solid #c2c2c2;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+.arrow:hover {
+  border: solid #04AA6D;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+
+  cursor:pointer;
+}
+.arrowgreen {
+  border: solid #04AA6D;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+.arrowgreen:hover {
+  border: solid #f44336;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+
+  cursor:pointer;
+}
+
+
+.hidearr {
+  border: solid #c2c2c2;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+.hidearr:hover {
+  border: solid #04AA6D;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+
+  cursor:pointer;
+}
+.hidearrg {
+  border: solid #04AA6D;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+.hidearrg:hover {
+  border: solid #f44336;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+
+  cursor:pointer;
+}
+
+.showhide { font-size:10px; margin-bottom:0.2px; color:#f1f1f1; } 
+.title { text-align:center; /*border-style: groove;*/ margin:auto; width:75%; margin-bottom:-32px;}
+
+.titletoko { border-style: groove; margin:auto; width:30px;}
+
+.topnav {
+  margin:auto;
+  padding:0.4rem;
+  /*border-style: groove;*/
+  overflow: hidden;
+  border-radius:5px; 
+  width:75%;
+
+}
+
+.space{ text-align: center; }
+.sale1 { width:100px; display: inline-block; }
+.sale2 {
+    width:auto; display: inline-block;
+}
+.sale3 { width:auto; display: inline-block; padding-bottom:12px; padding-right:12px;}
+.sale4 { width:auto; margin-right:2px;}
+.merah { color: #f44336; }
+
+.topnavx { margin-bottom: 15px; display: flex; }
+.leftn{float:left; padding: 2px; margin-top:5px; margin-left:0px; margin-right:3px; /*border-style: groove;*/ }
+.left{float:left; margin-bottom:0px; margin-top:0px; }
+.leftphoto{float:left; margin-bottom:0px; margin-top:6px; margin-left:30px;/*border-style: groove;*/}
+.rightgrup{ margin-left: auto; display: flex;}
+.nofloat{ float:right; width:160px; /*border-style: groove;*/}
+.right{float:right; margin-bottom:0px; margin-top:-2px; /*border-style: groove;*/}
+.rightphoto{float:right; margin-bottom:0px; margin-top:6px; margin-right:30px;/*border-style: groove;*/}
+.rightmenu{ float:right; margin-top:-2px; margin-right:-5px; height:35px;}
+.rightmenu2{ float:right; margin-top:-2px; margin-right:-5px; height:35px;}
+.framesearch{
+float:left; 
+border-style: groove; 
+border-radius:10px;
+margin-top:-5px; padding:auto;
+border: 1px solid #f1f1f1;
+display: flex;
+margin-right: 4px;
+}
+
+.framepassword{
+float:inherit; 
+border-style: groove; 
+border-radius:10px;
+border: 1px solid #f1f1f1;
+}
+
+
+.mediumfon { font-size: 15px; font-weight: bold; color: #f44336; }
+
+.bigfon { font-size: 30px; text-align:center; font-weight: bold; color: #b2b2b2; width: 200px;}
+
+.icon {
+  background: url("search.png") no-repeat center;
+  background-size: 22px 22px;
+ }
+.icon:hover {
+   	background-color: #f2f2f2;
+	cursor:pointer; border-radius:8px;
+}
+
+.pilihan {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+.kreditselector {
+    text-decoration: underline;
+    text-decoration-color: blue;
+    text-shadow: 1px 1px 10px #00FF00;
+}
+.silang {
+  text-decoration: line-through;
+}
+
+.iconeye {
+  background: url("eye-solid.svg") no-repeat center;
+  background-size: 22px 22px;
+ }
+
+p.stok { line-height:0.5; padding-left:10px;}
+.masuk { line-spacing:0.5; margin-top:-10px; }
+.stok2 { width:30px; display:inline-block; }
+.harga { width:30px; text-align:left; width:fit-content; }
+
+/*merger td table agar data terlihat besar di hp*/
+.tdmerger{ float:inherit; }
+.tdmerger3{ float:inherit; }
+.tdmerger2{ float:inherit; text-decoration: none; }
+
+
+
+.sortir {
+width:2px;
+height:2px;
+}
+.sortir:hover {
+	cursor:pointer;
+	margin: 1px;
+	
+	border-color: #04AA6D;
+  	color: red;
+}
+
+.frametableheader{ width:75%; overflow:hidden; margin:auto; border-radius:5px; }
+/*scrollable table*/
+.frametable { /* height:300px; overflow:auto; */ width:75%; margin:auto; }
+
+.table{
+	/* border: 1px solid black; */
+	border: none;
+	witdh:100%;
+	font-size: 13px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin: auto;
+}
+
+.table th{
+    border-top: 1px solid #c2c2c2;
+    border-bottom: 1px solid #c2c2c2;
+}
+
+.table td{
+	border-bottom: 1px solid #c2c2c2;
+}
+
+/*header tabel diam*/
+.table th { /*position:sticky; top:0; z-index:1; position:-web-sticky;*/}
+
+.trblaster:nth-child(even) { background-color: #f2f2f2 }  /*membuat tr berbeda warna */
+
+tr:hover { background-color: #E8FFE8; }	
+
+.tdact { width:100px ; }
+.textalign { text-align: right; }
+.strikethrough { text-decoration: line-through; }
+
+.white { color: white; }
+
+input[type=submit] {
+	width:30px;
+	margin: 1px;
+	transition-duration: 0s;
+	border:none;
+	color:white;
+	border-radius: 5px;
+font-size:12px;
+padding:10px;
+
+	}
+
+/*tombol aksi 1 (lama-pil) */
+input[type=button] {
+	width:45px;
+	margin-left: 0.3px;
+	margin-right: 0.3px;
+	margin-top: 0.5px;
+	margin-bottom: 0.5px;
+	transition-duration: 0s;
+	border: 2px solid;
+	color:white;
+        background-color: #04AA6D;
+	border-radius: 5px;
+	font-size:12px;
+	height:25px;
+	}
+
+.button1:hover {
+   	
+	cursor:pointer;
+	background-color: #f44336;
+  	color: white;
+	}
+.button2:hover {
+   
+	cursor:pointer;
+	opacity:0.9;
+	}
+
+
+.button3:hover {
+	cursor:pointer;
+	margin: 1px;
+	background-color: #04AA6D;
+  	color: white;
+	}
+/*tombol aksi 
+https://unused-css.com/blog/round-buttons/ 
+
+kumpulan emoji: https://www.dremendo.com/html-tutorial/html-emoji-codes
+emoji bagus : https://emojidb.org/
+*/
+
+.tab { padding-left:75px; }
+/* Full-width input fields */
+
+
+input[type=text], input[type=password], input[type=date], textarea {
+  width: 70%;
+  padding: 10px;
+  /*margin: 2px 0 15px 0;*/
+  display: inline-block;
+  border: 1px solid #f1f1f1;
+  background-color: #fffff8;
+border-radius: 5px;
+text-align:left;
+}
+
+textarea {
+  border: 1px solid #f1f1f1;
+  background-color: #fffff8;
+border-radius: 5px;
+resize: none;
+}
+
+textarea:focus {
+  background-color: #ffffff;
+  outline: none;
+ border-color: #04AA6D;
+}
+
+/* Add a background color when the inputs get focus */
+input[type=text]:focus, input[type=password]:focus, input[type=date]:focus {
+  background-color: #ffffff;
+  outline: none;
+ border-color: #04AA6D;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #04AA6D;
+  color: white;
+  
+  margin: 0px 0;
+  border: none;
+  cursor: pointer;
+  height:40px;
+  width: 100%;
+  border-radius: 5px;
+  
+}
+
+button:hover {
+  opacity:0.8;
+}
+
+.asdes {
+  color: red;
+  height: 30px;
+  /*border-style: groove;*/
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.huruf {
+    height: fit-content;
+    font-size: 9px;
+}
+
+.panah {
+    display: inline-block;
+    color: red;
+    line-height: 25px;
+    height: fit-content;
+    font-size: 40px;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+/*tombol next-previous***********************/
+
+.detail {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    overflow: hidden;
+    color:black;
+    width:fit-content;
+    font-size: 9px;
+    
+  }
+.detailhover:hover { text-decoration: underline; }
+.a {
+  display: inline-block;
+  width:30px;
+  height:30px;
+  background-color: #f1f1f1;
+  }
+
+.a:hover {
+  
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+ background-color: #04AA6D;
+  color: white;
+}
+
+.next {
+   background-color: #04AA6D; 
+  color: white;
+} 
+
+.round {
+  border-radius: 50%;
+  line-height: 20px;
+  letter-spacing: -3px;
+  transform: translateX(-8px);
+  
+}
+
+/********************* */
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  
+  background-color: #f44336; opacity:0.6;
+}
+.buttonadd { width:55px; float:right; margin-left:2px; }
+
+.indikatorstok {
+	background-color:  #f44336;
+	color : white;
+	padding : 5px;
+}
+.indikatorstok2 {
+	background-color :  yellow;
+	padding : 5px;
+}
+
+/* Add padding to container elements */
+.container { 
+
+  padding: 10px;
+margin:auto;
+}
+
+.containerp { 
+padding: 30px;
+margin:auto;
+}
+.subcontainer { 
+/*padding-left: 70px;*/
+display: flex;
+flex-direction: column;
+}
+.classadd{
+    display: flex;
+    align-items: center;
+    margin-bottom: 1px;
+}
+.classadd span{
+    width: 20%;
+    text-align: left;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.3);
+  padding-top: 30px;
+/* padding-left: 140px; */
+	font-size: 12px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    position: relative;
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+  
+}
+
+/* Modal Content/Box Print */
+.modal-contentprint {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 30%; /* Could be more or less, depending on screen size */
+  padding : 2px;
+}
+
+/*Modal untuk konfirmasi*/
+.modalconfirm {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.modalconfirm-content {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  width: 50%;
+  transform: translateY(-50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  /*display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;*/
+  text-align: center;
+}
+
+
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+ 
+/* The Close Button (x) */
+.close {
+  font-size: 30px;
+  font-weight: bold;
+  color: #c2c2c2;
+  text-align: center;
+}
+
+.close:hover,
+.close:focus {
+  color: #f44336;
+  cursor: pointer;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+/*@media screen and (max-width: 600px) {*/
+  .cancelbtn, .signupbtn {
+     width: 45%;
+  }
+/*}*/
+
+/* Center the image and position the close button (untuk form login)*/
+
+/* Full-width input fields */
+
+/* Extra styles for the cancel button */
+.cancelbtn2 {
+  width: auto;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 10%;
+  border-radius: 0px;
+}
+
+.container2 {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal2 {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+ /* overflow: auto;  Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  /* padding-top: 40px; */
+}
+
+/* Modal Content/Box */
+.modal-content2 {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 30%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close2 {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #c2c2c2;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.close2:hover,
+.close2:focus {
+  color: red;
+  cursor: pointer;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    color: #333; 
+    background-color: #f2f2f2;
+    width:75%;
+}
+
+.offpointer { pointer-events: none; }
+
+.footer { width:75%; font-size:12px; padding-top:10px; text-align:center; color: #a2a2a2; /*border-style: groove;*/ margin:auto;}
+
+
+/*--------------------------Menu--------------------------------*/
+.menux { 
+background-color: #d2d2d2; width: 35px;
+opacity : 0.3; 
+}
+
+.rightmenux{ width: 35px; background-color:transparent; height:30px; position:relative; padding-top:0px; }
+
+.menuline{
+  width: 20px;
+  height: 3px;
+  margin: 6px 0;
+  background-color: #04AA6D;
+  float: relative;
+  pointer-events: none;
+}
+
+
+.dropdown {
+  float: right;
+  position: relative;
+}
+
+.visible{
+    display: none;
+}
+
+.menupenjualan { /*tampilkan menu hp di PC krn belum dibuat yg versi desktop */
+    display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: fixed;
+  background-color: #04AA6D;
+  /*min-width: 160px;
+  overflow: auto;*/
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  right: 10px;
+  z-index: 1;
+  padding: 10px 16px;
+  border-radius:5px;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
+.warnaplaceholder::placeholder{
+    color: #E5E5EA;
+}
+
+/*---------------------------------------------------------------*/
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+
+  f
+ animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn2 {
+     width: 100%;
+  }
+}
+
+.warna { color: red; }
+
+/* Use a media query to add a breakpoint at 800px: agar tampilan maksimal di HP*/
+@media screen and (max-width: 800px) {
+  .modal-content, .modal-content2 {
+      margin: 8% auto 15% auto; 
+    width: 95%; /* The width is 100%, when the viewport is 800px or smaller */
+  }
+  
+ .wide{
+     width: 95% !important; /*lebar modal grafik*/
+ }
+ 
+.modal-contentprint { width: 70%; }
+
+.modalconfirm-content {
+  left: 5%;
+  width: 90%;
+}
+.space { text-align: left; }
+.visible{ display: inline-block; }
+.offmobile { display: none; }
+
+@media only screen and (orientation: landscape){
+.modalconfirm-content {
+    left: 20%;
+    width: 60%;
+}
+.space{ text-align: center; }
+.visible { display: none; }
+.offmobile { display: inline-block; }
+}
+
+  .frametable { /*height:450px; overflow:none; */ width:100%;  margin:auto; }
+  .frametableheader { width:100%; overflow:hide; margin:auto; }
+  /*input[type=text], input[type=password] { font-size: 16px; }*/
+  .topnav { width:100%; }
+  .icon { background-size: 23px 23px;}
+  .table { font-size:13px; }
+  .detail { font-size:9px; padding-top:0px; }
+  .tdmerger3 { font-size:9px; }
+  .detailunderline { text-decoration:underline; }
+  body { font-size: 11px; }
+  .subcontainer { 
+      padding-left: 0px;
+  }
+  input[type=button] {
+	width:50px;
+	margin-left: 0.5px;
+	margin-right: 0.5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	transition-duration: 0s;
+	border:none;
+	color:white;
+        background-color: #c2c2c2;
+	border-radius: 0px;
+	font-size:12px;
+	color:white;
+	height:25px;
+	}
+.button2:hover {
+   	
+	cursor:pointer;
+	background-color: #04AA6D;
+  	color: white;
+	}
+
+button { height:30px; }
+
+hr { width:100%; }
+.footer { font-size:9px; }
+
+.rightphoto{ margin-right:8px; }
+.leftphoto{ margin-left:8px; }
+.buttonadd { margin-right:2px; }
+.tdact { width: 35px; }
+.menupenjualan { margin-bottom: -28px; }
+
+
+}
+.segitiga3{
+			height:0px;
+			width:0px;
+			border-top:solid 30px orange;
+			border-left:solid 20px transparent;
+			border-right:solid 20px transparent;
+			
+			margin-bottom: 0px;
+			margin:auto;
+		}
+		
+/*untuk close notifikasi kredit*/
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+  }
+
+  .header .titlekredit {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .header .close3 {
+    cursor: pointer;
+    background-color: #ddd;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+
+  .header .close3:hover {
+    background-color: #ccc;
+  }
+.settingswrap {
+  /*  border-style: groove;*/
+    position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px; /* tambahkan gap untuk memisahkan kolom */
+}
+
+.settingsleft {
+  display: flex;
+  flex-direction: column;
+  /*border-style: groove;*/
+}
+
+.settingsright {
+  display: flex;
+  flex-direction: column;
+}
+
+.settingsright textarea {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.fullspace {
+  grid-column: 1 / 3;
+}
+
+.overlay-right {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  z-index: 1;
+  align-self: start;
+  justify-self: end;
+  position: absolute;
+}
+
+
+.headermodal th {
+  position: relative;
+  padding: 10px;
+  font-size: 12px;
+  color: #c2c2c2;
+  background: white;
+  text-align: center;
+}
+
+.headermodal th span {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.tdcenter td {
+  text-align: center;
+}
+
+
+ 
+  /* untuk grafrik penjualan */
+  
+  .wide { /*perlebar modal-content utk layar komputer*/
+      width: 85%;
+  }
+ 
+  .grafik {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+.scrollgrafik{
+    overflow-x: auto;
+    /*overflow-y: hidden;*/
+    width: 100%;
+    text-align: center;
+}
+
+#closegrafik{
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: 1;
+}
+
+
+  .sumbu-y {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .label-y {
+    text-align: right;
+    width: 60px;
+  }
+
+.batang-container {
+    margin-left: 64px;
+    display: flex;
+    align-items: flex-end;
+    height: 200px;
+}
+
+.batang {
+    width: 20px;
+    margin: 0 0px;
+}
+
+.batang-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 2px; /*jarak antar batang/tanggal */
+}
+
+.batang-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+  .sumbu-x {
+    margin-left: 50px;
+    display: flex;
+  }
+
+  .label-x {
+    position: absolute;
+    bottom: -20px;
+    text-align: center;
+    width: 100%;
+  }
+  
+.bergaris-wrapper{
+    padding: 1px;
+}
+  
+.bergaris {
+  background-image: repeating-linear-gradient(-45deg, 
+    rgba(255, 255, 255, 1), 
+    rgba(255, 255, 255, 1) 2px, 
+    transparent 2px, 
+    transparent 4px);
+    height: 100%;
+    width: 100%;
+}
+
+.arsirtabel {
+    background-image: repeating-linear-gradient(-45deg, 
+    rgba(0, 0, 0, 0.1), 
+    rgba(0, 0, 0, 0.1) 2px, 
+    transparent 4px, 
+    transparent 6px);
+}
+
+.wrapketbatang{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.wrapketbatang .ketbox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    -webkit-text-stroke: 1px black;
+    paint-order: stroke fill;
+    margin-right: 5px;
+    font-size: 8px;
+}
+
+  .bmerah {
+    background-color: #ff0000;
+  }
+
+  .bkuning {
+    background-color: #ffd700;
+  }
+
+  .bhijau {
+    background-color: #32cd32;
+  }
+
+  .bbiru {
+    background-color: #007bff;
+  }
+
+
+  
+  /*xxxxxxxxxxxxxxxxxxxxxxxxxx

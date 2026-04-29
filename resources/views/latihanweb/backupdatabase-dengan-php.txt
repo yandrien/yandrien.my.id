@@ -1,0 +1,95 @@
+Ini diperlukan jika kita ingin membuat fasilitas backup ada sistem informasi yang kita buat. Klik lalu otomatis terbackup. Fitur ini sering saya gunakan saat membuat sistem informasi yang memerlukan fitur backup. Hal ini mempermudah user sistem yang kita buat untuk melakukan backup data. Tinggal klik link backup yang telah kita buat maka file .sql akan otomatis terdownload.
+
+1. Kode Mendapatkan List Tabel
+Kode berikut adalah tahap dimana kita mendapatkan koneksi database. Pastikan host, user, password, dan nama database dimasukkan dengan benar. Lalu pada kode SHOW TABLES merupakan kode yang digunakan untuk membuka list nama tabel yang ada yang kemudian di simpan ke dalam array lalu dilakukan iterasi/pengulangan untuk menyimpan ke dalam file berekstensi .sql
+
+<?php
+// Database configuration
+$host = "localhost"; //host database
+$username = "root"; //user database
+$password = ""; //password database
+$database_name = "penjualanbarang"; //nama database
+ 
+// Get connection object and set the charset
+$conn = mysqli_connect($host, $username, $password, $database_name);
+$conn->set_charset("utf8");
+ 
+ 
+// Get All Table Names From the Database
+$tables = array();
+$sql = "SHOW TABLES";
+$result = mysqli_query($conn, $sql);
+ 
+while ($row = mysqli_fetch_row($result)) {
+    $tables[] = $row[0];
+}
+?>
+2. Membuka Struktur Tabel
+Setelah seluruh tabel di buka melalui tahap pertama, tahap selanjutnya adalah membuka struktur masing masing tabel. Melalui kode berikut akan dihasilkan skrip SQL.
+
+<?php
+$sqlScript = "";
+foreach ($tables as $table) {
+     
+    // Prepare SQLscript for creating table structure
+    $query = "SHOW CREATE TABLE $table";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_row($result);
+     
+    $sqlScript .= "\n\n" . $row[1] . ";\n\n";
+     
+     
+    $query = "SELECT * FROM $table";
+    $result = mysqli_query($conn, $query);
+     
+    $columnCount = mysqli_num_fields($result);
+     
+    // Prepare SQLscript for dumping data for each table
+    for ($i = 0; $i < $columnCount; $i ++) {
+        while ($row = mysqli_fetch_row($result)) {
+            $sqlScript .= "INSERT INTO $table VALUES(";
+            for ($j = 0; $j < $columnCount; $j ++) {
+                $row[$j] = $row[$j];
+                 
+                if (isset($row[$j])) {
+                    $sqlScript .= '"' . $row[$j] . '"';
+                } else {
+                    $sqlScript .= '""';
+                }
+                if ($j < ($columnCount - 1)) {
+                    $sqlScript .= ',';
+                }
+            }
+            $sqlScript .= ");\n";
+        }
+    }
+    $sqlScript .= "\n"; 
+}
+?>
+3. Simpan dan Download Database
+Proses terakhir adalah kode untuk melakukan penyimpanan atau download database / file ekstensi .sql. Setelah melalui proses di atas, maka file .sql siap untuk didownload. Teman teman bisa mengubah nama file .sql yang ingin di download pada variabel $backup_file_name, melalui kode berikut :
+
+<?php
+if(!empty($sqlScript))
+{
+    // Save the SQL script to a backup file
+    $backup_file_name = $database_name . '_backup_' . time() . '.sql';
+    $fileHandler = fopen($backup_file_name, 'w+');
+    $number_of_lines = fwrite($fileHandler, $sqlScript);
+    fclose($fileHandler); 
+ 
+    // Download the SQL backup file to the browser
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename=' . basename($backup_file_name));
+    header('Content-Transfer-Encoding: binary');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($backup_file_name));
+    ob_clean();
+    flush();
+    readfile($backup_file_name);
+    exec('rm ' . $backup_file_name); 
+}
+?>

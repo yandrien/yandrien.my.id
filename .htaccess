@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/public/
+    
+    # L = Last (berhenti di sini), QSA = Query String Append (bawa semua parameter URL)
+    RewriteRule ^(.*)$ public/$1 [L,QSA]
+</IfModule>

@@ -149,10 +149,13 @@ Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
 // Rute untuk halaman Beranda
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-use Illuminate\Support\Facades\Artisan;
 
 /*ini berguna untuk menghapus paksa cache laravel jika tidak memiliki terminal di hosting, aktifkan untuk membersihkan --20/4/2026
-pernah saya kasus ubah2 -authorized riderict URIs google console jadinya terblok oleh google karena laravel masih mengirim APP-URL yang lama, jadi saya gunakan kode ini untuk membersihkan cachenya.
+pernah saya kasus ubah2 -authorized riderict URIs google console jadinya terblok oleh google karena laravel masih mengirim APP-URL yang lama,
+jadi saya gunakan kode ini untuk membersihkan cachenya.
+
+use Illuminate\Support\Facades\Artisan;
+
 Route::get('/force-clear', function() {
     Artisan::call('config:clear');
     Artisan::call('route:clear');

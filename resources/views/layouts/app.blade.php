@@ -1098,7 +1098,8 @@ const translations = {
         daftar_sini: 'Daftar di sini!',
 		
 		mari: 'Teknologi Informasi',
-		hero_title: 'Tiada hari tanpa belajar dan berinovasi. Jelajahi karya-karya saya!',
+		hero_title1: 'Terus belajar dan berinovasi.',
+		hero_title2: 'Jelajahi karya-karya saya!',
         title_buatartikel: 'Buat Artikel Baru',
         tambah_artikel: 'Tambah Artikel',
 		article: 'Artikel Terbaru',
@@ -1178,7 +1179,8 @@ const translations = {
         daftar_sini: 'Register here!',
 		
 		mari: "Information Technology",
-		hero_title: 'There is no day without learning and innovating. Explore my works!',
+		hero_title1: 'Keep learning and innovating.',
+		hero_title2: 'Explore my works!',
         title_buatartikel: 'Write new article',
         tambah_artikel: 'New Article',
 		article: 'Latest Articles',

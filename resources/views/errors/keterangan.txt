@@ -1,0 +1,2 @@
+folder errors ini baru dibuat untuk menangani errorpages sehingga bukan tampilan default yang dimunculkan tapi ketiga halaman ini sesuai dengan error yang terjadi.
+setelah file .env di bagian APP_DEBUG = false, maka ketika error laravel akan mengarahkan halaman error ke file2 ini. --04/05/2026

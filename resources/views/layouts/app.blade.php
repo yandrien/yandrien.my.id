@@ -153,30 +153,32 @@
 <header id="header" class="fixed top-0 left-0 w-full bg-transparent z-50 transition-transform duration-300 ease-in-out">
     <div class="w-full px-4 sm:px-8 flex justify-between items-center h-16">
 		
-			<!-- Grup Logo dan Nama Pengguna yang selalu berdekatan -->
-			<div class="flex items-center space-x-2">
-				<img src="{{ asset('images/ylaw-logon.png') }}" alt="AT Logo" class="h-6 w-auto md:h-8 md:w-auto mr-2">
-				
-				@auth
-                    <div id="useraktif" class="flex items-center space-x-3">
-                         <!--menampilkan foto profil dari google/fb-20/04/2026-->
-                         @if(Auth::user()->avatar)
-                            <img src="{{ Auth::user()->avatar }}" 
-                                 alt="Profil" 
-                                 class="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover">
-                        @else
-                            <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
-                                <i class="fas fa-user text-white"></i>
-                            </div>
-                        @endif
-                        
-                        <!--tampilkan nama user yang login-->
-                        <span class="capitalize font-bold text-outline opacity-70">
-                            {{ Auth::user()->name }}
-                        </span>
-                    </div>
-                @endauth
-			</div>
+			<!-- Grup Logo atau Foto Profil -->
+		<div class="flex items-center">
+			
+			@guest
+				<!-- Tampilkan Logo hanya jika pengguna BELUM login -->
+				<img src="{{ asset('images/ylaw-logon.png') }}" alt="AT Logo" class="h-6 w-auto md:h-8 md:w-auto">
+			@endguest
+
+			@auth
+				<!-- Tampilkan Foto Profil atau Inisial jika SUDAH login -->
+				<div id="useraktif" class="flex items-center">
+					@if(Auth::user()->avatar)
+						<img src="{{ Auth::user()->avatar }}" 
+							 alt="Profil" 
+							 class="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-white shadow-sm object-cover">
+					@else
+						<!-- Jika foto tidak ada, tampilkan lingkaran dengan huruf awal nama -->
+						<div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-green-900 flex items-center justify-center text-white font-bold text-sm md:text-base shadow-sm border-2 border-white">
+							{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+						</div>
+					@endif
+					
+				</div>
+			@endauth
+
+		</div>
 					
 			<!-- Menu Mobile yang Tersembunyi -->
 		
@@ -364,7 +366,7 @@
     
     @if(isset($unique_visitors))
     <div id="visitor-stats-kambaniru" class="z-50">
-        <div class="flex flex-row items-center gap-4 text-[10px] md:text-xs">
+        <div class="flex flex-row items-center gap-2 text-xs">
             @auth
     			{{-- Hanya Admin yang bisa klik link monitoring --}}
     			@if(auth()->user()->is_admin)

@@ -14,20 +14,21 @@
                     Mari Berkarya
                 </h1>
                 <!-- Deskripsi singkat -->
-                <p data-key="hero_title" class="text-[16px] md:text-xl font-medium mb-8 max-w-none mx-auto">
-                    Tiada hari tanpa belajar dan berinovasi. Jelajahi karya-karya saya!
-                </p>
+                <div class="flex flex-col md:flex-row justify-center items-center md:gap-2 text-[12px] md:text-xl font-medium mb-8">
+					<p data-key="hero_title1">Terus belajar dan berinovasi.&nbsp;</p>
+					<p data-key="hero_title2">Jelajahi karya-karya saya!</p>
+				</div>
                 <!-- Tombol aksi (Call to Action)
                 <a data-key="hero_viewporto" href="#" class="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
                     Lihat Portofolio
                 </a> -->
             </div>
 			{{-- Panah Navigasi --}}
-				<button id="prevImage" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-20 hover:bg-opacity-40 p-3 rounded-full text-white text-2xl transition duration-300 z-20 focus:outline-none">
-					&#10094; {{-- Karakter panah kiri --}}
+				<button id="prevImage" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 p-3 rounded-full text-white text-2xl transition duration-300 z-20 focus:outline-none cursor-pointer">
+					&#10094;
 				</button>
-				<button id="nextImage" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-20 hover:bg-opacity-40 p-3 rounded-full text-white text-2xl transition duration-300 z-20 focus:outline-none">
-					&#10095; {{-- Karakter panah kanan --}}
+				<button id="nextImage" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 p-3 rounded-full text-white text-2xl transition duration-300 z-20 focus:outline-none cursor-pointer">
+					&#10095;
 				</button>
         </section>
 

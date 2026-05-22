@@ -447,7 +447,7 @@
 </footer>
 	
 	<!--popup Login-->
-	<div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-[100] items-center justify-center">
+	<div id="login-modal" style="background-color: rgba(0, 0, 0, 0.5);" class="fixed inset-0 hidden z-[100] items-center justify-center">
 		<div class="bg-white rounded-lg p-8 mx-4 shadow-inner max-w-md w-full max-h-full relative transform transition-all ease-in-out duration-300 scale-95 overflow-y-auto">
 			<button id="close-modal-btn" class="absolute top-4 right-4 height-[auto] text-gray-400 hover:text-gray-600 transition duration-300">
 				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -510,7 +510,7 @@
 
 
 <!-- Modal untuk Kontak -->
-    <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-[100] flex items-center justify-center">
+    <div id="contact-modal" style="background-color: rgba(0, 0, 0, 0.5);" class="fixed inset-0 hidden z-[100] flex items-center justify-center">
     <div class="bg-white rounded-lg p-8 mx-4 shadow-inner max-w-md w-full max-h-full relative transform transition-all ease-in-out duration-300 scale-95 overflow-y-auto">
         <button id="close-contact-modal" name="close-contact-modal" type="button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-300">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -546,7 +546,7 @@
 	</div>
 
     <!-- Modal Konfirmasi -->
-    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-[100] flex items-center justify-center">
+    <div id="success-modal" style="background-color: rgba(0, 0, 0, 0.5);" class="fixed inset-0 hidden z-[100] flex items-center justify-center">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 transform transition-all duration-300 scale-95">
             <div class="flex flex-col items-center justify-center space-y-4 text-center">
 				<div class="bg-green-100 rounded-full p-3 mb-1">
@@ -795,6 +795,16 @@ if (heroImage) {
             }, 0);
         });
 		} */
+		
+		//Ditambhkan kode ini agar HR bisa live demo dari landing page-22/05/'26
+    	function handleLoginModalHash() {
+            if (window.location.hash === '#login-modal') {
+                showModal(loginModal, loginContent);
+            }
+        }
+        // Eksekusi saat pertama kali halaman dimuat browser
+        window.addEventListener('DOMContentLoaded', handleLoginModalHash);
+		
 	}
 	
 	// Temukan form login

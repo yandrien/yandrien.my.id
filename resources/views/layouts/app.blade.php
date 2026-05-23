@@ -798,7 +798,7 @@ if (heroImage) {
 		
 		//Ditambhkan kode ini agar HR bisa live demo dari landing page-22/05/'26
     	function handleLoginModalHash() {
-            if (window.location.hash === '#login-modal') {
+            if (window.location.hash === '#login') {
                 showModal(loginModal, loginContent);
             }
         }
@@ -966,7 +966,14 @@ if (loginForm) {
 		});
 	}
 	
-	
+	//Ditambhkan kode ini agar HR bisa live demo dari landing page-23/05/'26
+    	function handleContactModalHash() {
+            if (window.location.hash === '#contact') {
+                showModal(contactModal, contactContent);
+            }
+        }
+        // Eksekusi saat pertama kali halaman dimuat browser
+        window.addEventListener('DOMContentLoaded', handleContactModalHash);
 
 
 /////////////////Modal dipakai oleh Login dan Kontak///////////////////////

@@ -20,7 +20,7 @@ class ContactController extends Controller
         // pengguna dengan pesan kesalahan.
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'emailcontact' => 'required|email|max:255',
+            'email' => 'required|email|max:255',
             'message' => 'required|string',
         ]);
 

@@ -29,7 +29,14 @@ class ContactController extends Controller
         Contact::create($validatedData);
 
         // Arahkan pengguna ke halaman beranda ('/') dengan pesan sukses.
-        return back()->with('success', 'Pesan terkirim!');
+        //return back()->with('success', 'Pesan terkirim!');
+		
+		// KUNCI AJAX: Kembalikan respon JSON, bukan redirect back()--29/05/2026
+		return response()->json([
+			'success' => true, //isi data yang dikirim sudah benar
+			'message' => 'Pesan Anda berhasil dikirim!',
+			'token' => csrf_token() // kirim token baru ke browser
+		], 200); //200 artinya data sudah sampai ke database
     }
 }
 

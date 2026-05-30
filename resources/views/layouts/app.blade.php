@@ -976,6 +976,122 @@ if (loginForm) {
         window.addEventListener('DOMContentLoaded', handleContactModalHash);
 
 
+	// =========================================================
+	//	Kirim data kontak via AJAX--29/05/2026
+	// =========================================================
+	
+	//	DEKLARASI ELEMEN GLOBAL (Browser cuma nyari 1x saja)
+	const successModal = document.getElementById('success-modal');
+	// Sekalian ambil modalBox-nya agar tidak perlu querySelector berulang kali
+	const successModalBox = successModal ? successModal.querySelector('.transform') : null;
+
+	document.getElementById('contact-form').addEventListener('submit', async function(e) {
+		// 1. Hentikan perilaku bawaan form (mencegah refresh halaman)
+		e.preventDefault();
+
+		const form = this;
+		const button = form.querySelector('button[type="submit"]');
+		const buttonText = button.querySelector('span');
+		
+		// Simpan teks asli tombol (misal: "Kirim Pesan")
+		const originalText = buttonText.textContent;
+		
+		// 2. Ubah status tombol menjadi loading
+		button.disabled = true;
+		buttonText.textContent = 'Mengirim...';
+
+		// 3. Ambil semua data dari input form
+		const formData = new FormData(form);
+
+		try {
+			// 4. Kirim data ke Laravel menggunakan fetch
+			const response = await fetch(form.action, {
+				method: 'POST',
+				body: formData,
+				headers: {
+					// Memberitahu Laravel bahwa ini adalah request AJAX
+					'X-Requested-With': 'XMLHttpRequest',
+					
+					// ➔ Kirim token CSRF dari objek global window
+					'X-CSRF-TOKEN': window.LaravelEnv.csrfToken
+				}
+			});
+
+			const result = await response.json();
+
+			if (response.ok && result.success) {
+				//5. Jika berhasil
+				// Bersihkan isi form kontak
+				form.reset(); 
+				
+				// ➔ Perbarui token global agar form lain tidak error 419
+				if (result.token) {
+					// Perbarui di objek window
+					window.LaravelEnv.csrfToken = result.token;
+					
+					// Perbarui juga di Meta Tag HTML agar sinkron luar dalam
+					const metaCsrf = document.querySelector('meta[name="csrf-token"]');
+					if (metaCsrf) {
+						metaCsrf.setAttribute('content', result.token);
+					}
+				}
+
+				//Sembunyikan Modal Form Kontak
+				const contactModal = document.getElementById('contact-modal');
+				if (contactModal) contactModal.classList.add('hidden');
+
+				//Masukkan teks pesan dari Laravel ke Modal Sukses
+				const modalMessage = document.getElementById('modalMessage');
+				if (modalMessage) {
+					modalMessage.textContent = result.message; // Mengganti teks "info" dengan pesan dari server
+				}
+
+				//Tampilkan Modal Sukses
+				if (successModal) {
+					successModal.classList.remove('hidden');
+					
+					// efek scale-100 agar transisi Tailwind-nya jalan
+					if (successModalBox) {
+						setTimeout(() => {
+							successModalBox.classList.remove('scale-95');
+							successModalBox.classList.add('scale-100');
+						}, 10);
+					}
+				}
+			} else {
+				// ➔ Antisipasi jika session habis di tengah jalan (Error 419)
+				if (response.status === 419) {
+					alert('Sesi Anda telah berakhir demi keamanan. Halaman akan dimuat ulang otomatis.');
+					window.location.reload();
+				} else {
+					alert('Oops! Periksa kembali data Anda.');
+				}
+			}
+
+		} catch (error) {
+			console.error('Error:', error);
+			alert('Gagal terhubung ke server. Silakan coba lagi nanti.');
+		} finally {
+			// 6. Kembalikan status tombol seperti semula setelah proses selesai
+			button.disabled = false;
+			buttonText.textContent = originalText;
+		}
+	});
+	
+	// LOGIKA UNTUK MENUTUP MODAL SUKSES SAAT TOMBOL "OK" DIKLIK
+	document.getElementById('closeModal').addEventListener('click', function() {
+		if (successModal) {
+			if (successModalBox) {
+				successModalBox.classList.remove('scale-100');
+				successModalBox.classList.add('scale-95');
+			}
+			// Beri jeda sedikit agar efek transisi mengecil selesai sebelum disembunyikan
+			setTimeout(() => {
+				successModal.classList.add('hidden');
+			}, 150);
+		}
+	});
+
 /////////////////Modal dipakai oleh Login dan Kontak///////////////////////
 
 // Fungsi untuk menampilkan modal dengan efek transisi
@@ -1003,6 +1119,7 @@ if (loginForm) {
 ////////////////////////////////////////////////////////////////	
 	
 //tampilkan konfirmasi pengiriman pesan kontak
+/* diganti ke cara AJAX --29/05/2026
 	const urlParams = new URLSearchParams(window.location.search);
 	const successMessage = "{{ session('success') }}";
 	const modalAlert = document.getElementById('success-modal');
@@ -1025,7 +1142,7 @@ if (loginForm) {
 		url.searchParams.delete('success');
 		window.history.replaceState(null, '', url.toString());
 	});
-
+*/
 
 
 @auth

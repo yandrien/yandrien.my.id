@@ -457,7 +457,7 @@
 			<!-- Perubahan di sini: Menambahkan kelas `absolute top-4 left-4` untuk memosisikan elemen -->
 				<span id="keterangan" class="text-[12px] leading-none text-red-600 font-bold absolute top-4 left-1/2 transform -translate-x-1/2"></span>
 			<h2 data-key="login_title" class="text-1xl font-bold text-center text-gray-800">Masuk ke Akun Anda</h2>    
-			<form action="{{ route('login') }}" method="POST" class="space-y-4" autocomplete="off">
+			<form action="{{ route('login') }}" method="POST" class="space-y-4">
 			@csrf
 				<div>
 					<label for="email" class="block text-sm font-medium text-gray-700">Email</label>
@@ -466,7 +466,7 @@
 				<div>
 					<label data-key="sandi" for="password" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
 					<div class="relative mt-[-1px]">
-						<input type="password" id="password" name="password" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm pr-10 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" placeholder="********">
+						<input type="password" id="password" name="password" autocomplete="current-password" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm pr-10 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" placeholder="********">
 						<span class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" id="toggle-password">
 							<i class="far fa-eye text-gray-400 hover:text-gray-600"></i>
 						</span>
@@ -519,7 +519,7 @@
         </button>
         <h2 data-key="hubungi" class="text-2xl font-bold text-center text-gray-800 mb-6">Hubungi Kami</h2>
         
-        <form id="contact-form" action="{{ route('contact.store') }}" method="POST" class="space-y-4" autocomplete="off">
+        <form id="contact-form" action="{{ route('contact.store') }}" method="POST" class="space-y-4">
             @csrf 
             <div>
                 <label data-key="namalengkap" for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
@@ -528,7 +528,7 @@
 
             <div>
                 <label data-key="labelemail" for="emailcontact" class="block text-sm font-medium text-gray-700">Email</label>
-                <input data-key="placeholderemail" type="email" id="emailcontact" name="emailcontact" class="mt-[-1px] block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" placeholder="nama@contoh.com">
+                <input data-key="placeholderemail" type="email" id="emailcontact" name="email" autocomplete="email" class="mt-[-1px] block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" placeholder="nama@contoh.com">
             </div>
 
             <div>
@@ -1636,6 +1636,27 @@ document.addEventListener('DOMContentLoaded', () => {
             
         }, 'google_translate_element');
     }
+	
+	//menyuntikkan id dan name pada select google agar tidak ada warning di browser inspect--8/06/2026
+    //awasi kemunculan elemen Google Translate secara real-time
+    const observer = new MutationObserver((mutations, obs) => {
+        const googleSelect = document.querySelector('.goog-te-combo');
+        
+        // Begitu elemennya ketemu, langsung eksekusi!
+        if (googleSelect) {
+            if (!googleSelect.hasAttribute('id')) googleSelect.setAttribute('id', 'google_translate_select');
+            if (!googleSelect.hasAttribute('name')) googleSelect.setAttribute('name', 'google_translate_select');
+            
+            // Setelah sukses menyuntikkan id & name, matikan satpam agar hemat baterai/RAM
+            obs.disconnect(); 
+        }
+    });
+
+    // Mulai mengawasi seluruh perubahan struktur HTML di halaman portfolio
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
 
     function changeLanguage(kodebahasa, kodeasal, langCode) {
         

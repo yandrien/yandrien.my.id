@@ -43,16 +43,79 @@ An enterprise-grade Micro-ERP platform featuring an integrated **Point of Sale (
 
 ---
 
-## 🗄️ Database Table Map Outline
+## 🗄️ Database Architecture & Relations (ERD)
 
-The application relational architecture orchestrates data flows across these core entities:
-* `user`: Stores operator identity, security hashes, and role permissions.
-* `buah`: The core inventory asset registrar (Codes, Names, Stocks, Selling Prices, Images).
-* `masuk`: Tracking history ledger capturing every single supplier inbound stock movement.
-* `penjualan`: Active running queue mechanism managing shopping cart line items.
-* `payment`: Ledger tracking settled liquid sales (Cash and Direct Transfers).
-* `kredit`: Tracks structured finance agreements, installment milestones, and credit standing.
-* `settings`: Stores global configurations for current financial rules (DP, Interest rate percentages).
+Aplikasi ini menggunakan arsitektur database relasional yang saling mengunci secara real-time untuk sinkronisasi stok gudang, antrean kasir, laporan keuangan, hingga manajemen risiko kredit macet.
+
+Berikut adalah bagan visual interaktif relasi antar-tabel (Entity Relationship Diagram) yang akan otomatis di-render oleh GitHub:
+
+```mermaid
+erDiagram
+    USER ||--o{ PENJUALAN : "operates (Memproses transaksi kasir)"
+    USER {
+        string user PK
+        string password
+        string email
+        string type
+    }
+
+    BUAH ||--o{ MASUK : "tracks_inbound (Log barang masuk supplier)"
+    BUAH ||--o{ PENJUALAN : "staged_in (Masuk keranjang belanja)"
+    BUAH {
+        string kode PK "Kunci Produk"
+        string nama
+        int stok "Sisa Stok Riil"
+        int instok
+        int price
+        longblob foto
+    }
+
+    MASUK {
+        int id PK
+        string kode FK "Terhubung ke master produk"
+        int jumlah
+        string tgl
+    }
+
+    PENJUALAN {
+        int id PK
+        string inv "Nomor Invoice"
+        string kode FK "Terhubung ke master produk"
+        int kuantitas
+        string pembeli
+        string item_flattened "Data gabungan (Metode .)"
+    }
+
+    PAYMENT {
+        string inv PK "One-to-One Invoice Lunas"
+        string kasir
+        string pembeli
+        int total
+        int bayar
+        int kembalian
+        string via "Tunai / TF"
+        string tgl
+    }
+
+    KREDIT {
+        string inv PK "One-to-One Invoice Piutang"
+        string kasir
+        string pembeli
+        int dp
+        int sisa
+        int bunga
+        int tenor
+        int angsuran
+        string tgl
+        string status "Indikator Lancar/Macet"
+    }
+
+    SETTINGS {
+        int id PK
+        int dp
+        int bunga
+        string rek
+    }
 
 ---
 

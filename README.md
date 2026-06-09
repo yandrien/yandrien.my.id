@@ -28,6 +28,13 @@ A robust personal website and Content Management System (CMS) built with Laravel
 
 ---
 
+## 🗄️ Database Architecture (ERD)
+Below is the Entity Relationship Diagram showcasing the database schema, user authentication tracking, and CMS article relationships:
+
+![Entity Relationship Diagram](erd.png)
+
+---
+
 ## 📸 Screenshots
 
 ![Home](public/screenshots/home.png)
@@ -75,5 +82,6 @@ Follow these procedures to clone the repository and execute the environment loca
 	
 	Access the local development server at http://127.0.0.1:8000
 	
+---	
 	
 📄 Developer: Yandrien Landu Wohangara

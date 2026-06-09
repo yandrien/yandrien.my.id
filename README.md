@@ -49,56 +49,51 @@ Aplikasi ini menggunakan arsitektur database relasional yang saling mengunci sec
 
 Berikut adalah bagan visual interaktif relasi antar-tabel (Entity Relationship Diagram) yang akan otomatis di-render oleh GitHub:
 
-```mermaid
+<pre class="mermaid">
 erDiagram
-    USER ||--o{ PENJUALAN : "operates (Memproses transaksi kasir)"
+    USER ||--o{ PENJUALAN : "operates"
     USER {
         string user PK
         string password
         string email
         string type
     }
-
-    BUAH ||--o{ MASUK : "tracks_inbound (Log barang masuk supplier)"
-    BUAH ||--o{ PENJUALAN : "staged_in (Masuk keranjang belanja)"
+    BUAH ||--o{ MASUK : "tracks_inbound"
+    BUAH ||--o{ PENJUALAN : "staged_in"
     BUAH {
-        string kode PK "Kunci Produk"
+        string kode PK
         string nama
-        int stok "Sisa Stok Riil"
+        int stok
         int instok
         int price
         longblob foto
     }
-
     MASUK {
         int id PK
-        string kode FK "Terhubung ke master produk"
+        string kode FK
         int jumlah
         string tgl
     }
-
     PENJUALAN {
         int id PK
-        string inv "Nomor Invoice"
-        string kode FK "Terhubung ke master produk"
+        string inv
+        string kode FK
         int kuantitas
         string pembeli
-        string item_flattened "Data gabungan (Metode .)"
+        string item_flattened
     }
-
     PAYMENT {
-        string inv PK "One-to-One Invoice Lunas"
+        string inv PK
         string kasir
         string pembeli
         int total
         int bayar
         int kembalian
-        string via "Tunai / TF"
+        string via
         string tgl
     }
-
     KREDIT {
-        string inv PK "One-to-One Invoice Piutang"
+        string inv PK
         string kasir
         string pembeli
         int dp
@@ -107,15 +102,15 @@ erDiagram
         int tenor
         int angsuran
         string tgl
-        string status "Indikator Lancar/Macet"
+        string status
     }
-
     SETTINGS {
         int id PK
         int dp
         int bunga
         string rek
     }
+</pre>
 
 ---
 

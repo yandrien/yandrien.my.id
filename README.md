@@ -43,74 +43,23 @@ An enterprise-grade Micro-ERP platform featuring an integrated **Point of Sale (
 
 ---
 
-## 🗄️ Database Architecture & Relations (ERD)
+## 🗄️ Database Table Map Outline
 
-Aplikasi ini menggunakan arsitektur database relasional yang saling mengunci secara real-time untuk sinkronisasi stok gudang, antrean kasir, laporan keuangan, hingga manajemen risiko kredit macet.
+The application relational architecture orchestrates data flows across these core entities:
+* `user`: Stores operator identity, security hashes, and role permissions.
+* `buah`: The core inventory asset registrar (Codes, Names, Stocks, Selling Prices, Images).
+* `masuk`: Tracking history ledger capturing every single supplier inbound stock movement.
+* `penjualan`: Active running queue mechanism managing shopping cart line items.
+* `payment`: Ledger tracking settled liquid sales (Cash and Direct Transfers).
+* `kredit`: Tracks structured finance agreements, installment milestones, and credit standing.
+* `settings`: Stores global configurations for current financial rules (DP, Interest rate percentages).
 
-Berikut adalah bagan visual interaktif relasi antar-tabel (Entity Relationship Diagram) yang akan otomatis di-render oleh GitHub:
+---
 
-<pre class="mermaid">
-erDiagram
-    USER ||--o{ PENJUALAN : "operates"
-    USER {
-        string user PK
-        string password
-        string email
-        string type
-    }
-    BUAH ||--o{ MASUK : "tracks_inbound"
-    BUAH ||--o{ PENJUALAN : "staged_in"
-    BUAH {
-        string kode PK
-        string nama
-        int stok
-        int instok
-        int price
-        longblob foto
-    }
-    MASUK {
-        int id PK
-        string kode FK
-        int jumlah
-        string tgl
-    }
-    PENJUALAN {
-        int id PK
-        string inv
-        string kode FK
-        int kuantitas
-        string pembeli
-        string item_flattened
-    }
-    PAYMENT {
-        string inv PK
-        string kasir
-        string pembeli
-        int total
-        int bayar
-        int kembalian
-        string via
-        string tgl
-    }
-    KREDIT {
-        string inv PK
-        string kasir
-        string pembeli
-        int dp
-        int sisa
-        int bunga
-        int tenor
-        int angsuran
-        string tgl
-        string status
-    }
-    SETTINGS {
-        int id PK
-        int dp
-        int bunga
-        string rek
-    }
-</pre>
+## 🗄️ Database Architecture (ERD)
+Below is the Entity Relationship Diagram showcasing the database schema relationships:
+
+![Entity Relationship Diagram](erd.png)
 
 ---
 

@@ -229,7 +229,7 @@
 						<a href="{{ route('translator.index')}}" class="flex items-center py-1 hover:text-green-600 transition duration-300">
 							<span class="mr-2 text-green-500">•</span> Translator Sumba
 						</a>
-						<a href="http://localhost/isales/" target="blank" class="flex items-center py-1 hover:text-green-600 transition duration-300">
+						<a href="https://toko.yandrien.my.id" target="blank" class="flex items-center py-1 hover:text-green-600 transition duration-300">
 							<span class="mr-2 text-green-500">•</span> iSales
 						</a>
 					</div>
@@ -270,7 +270,7 @@
 			</button>
 			<div class="absolute hidden group-hover:block bg-black shadow-lg rounded-md w-48 py-2 text-white font-semibold z-50">
 			<a href="{{ route('translator.index') }}" class="block px-4 py-2 hover:text-green-300 transition duration-300 text-sm transform hover:scale-105">Translator Sumba</a>
-			<a href="http://localhost/isales/" target="blank" class="block px-4 py-2 hover:text-green-300 transition duration-300 text-sm transform hover:scale-105">iSales</a>
+			<a href="https://toko.yandrien.my.id" target="blank" class="block px-4 py-2 hover:text-green-300 transition duration-300 text-sm transform hover:scale-105">iSales</a>
 			</div>
 			</div>
 			<a data-key="nav_contact" href="#" id="contact-link" class="text-white hover:text-green-300 font-semibold transition duration-300 text-sm transform hover:scale-105">Kontak</a>
@@ -406,7 +406,7 @@
             <a href="https://www.facebook.com/yandrien wohangara" target="_blank" class="text-white hover:text-green-300 transition-colors duration-300">
                 <i class="fa-brands fa-square-facebook text-4xl"></i>
             </a>
-            <a href="https://www.linkedin.com/in/yandrien-woha-015147a5" target="_blank" class="text-white hover:text-green-300 transition-colors duration-300">
+            <a href="https://www.linkedin.com/in/yandrien-wohangara-015147a5" target="_blank" class="text-white hover:text-green-300 transition-colors duration-300">
                 <i class="fa-brands fa-linkedin-in text-4xl"></i>
             </a>
             <a href="https://www.instagram.com/yandrien" target="_blank" class="text-white hover:text-green-300 transition-colors duration-300">
@@ -588,7 +588,7 @@
 	<script>
 	
 		
-		// Array berisi URL gambar yang akan dirotasi.
+	// Array berisi URL gambar yang akan dirotasi.
     const images = [
         "{{ asset('images/welcomeimage-forest.webp') }}",
         "{{ asset('images/rumah-pintar.webp') }}",
@@ -1475,8 +1475,8 @@ function initializeDropdown() {
 
     const savedLang = localStorage.getItem('user_lang') || 'id-ID';
     const currentLangObj = languages.find(l => l.code === savedLang);
-	
-	//label untuk translator kamus sumba kambera--30/09/2026
+
+   //label untuk translator kamus sumba kambera--30/09/2026
 	const labeltranslatorSumba = document.querySelectorAll('.kamuskambera');
 
 
@@ -1536,7 +1536,7 @@ function initializeDropdown() {
                 if (deskLabel) deskLabel.textContent = lang.name;
                 if (mobLabel) mobLabel.textContent = lang.name;
 
-				//sesuaikan label bahasa pada translator kambera-30/09/2026
+                //sesuaikan label bahasa pada translator kambera-30/09/2026
 				labeltranslatorSumba.forEach(el => {
 					el.textContent = currentLangObj.name;
 				});
@@ -1636,8 +1636,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
         }, 'google_translate_element');
     }
-
-	//menyuntikkan id dan name pada select google agar tidak ada warning di browser inspect--8/06/2026
+    
+    //menyuntikkan id dan name pada select google agar tidak ada warning di broser inspect--8/06/2026
     //awasi kemunculan elemen Google Translate secara real-time
     const observer = new MutationObserver((mutations, obs) => {
         const googleSelect = document.querySelector('.goog-te-combo');
@@ -1657,7 +1657,7 @@ document.addEventListener('DOMContentLoaded', () => {
         childList: true,
         subtree: true
     });
-	
+
     function changeLanguage(kodebahasa, kodeasal, langCode) {
         
 		// 1. Ambil elemen dropdown yang dibuat otomatis oleh Google

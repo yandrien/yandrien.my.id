@@ -18,8 +18,6 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\TranslatorController;
 use App\Http\Controllers\DictionaryController;
 
-use App\Http\Controllers\TranslationBridgeController; //translator stichoza google, dipakai untuk kamus dari asing ke kambera, 26 jan 2026
-
 use App\Http\Controllers\VisitorController;
 
 //rute untuk menampilkan halaman data pengjung web--23/04/2026
@@ -49,9 +47,6 @@ Route::get('/api/dictionary/search', [DictionaryController::class, 'searchWord']
 Route::put('/api/dictionary/update/{uniqueId}', [DictionaryController::class, 'updateWord']);
 Route::delete('/api/dictionary/delete/{id}', [DictionaryController::class, 'deleteWord']);
 //------------------------------------------------------------------------------
-
-// Rute untuk menjembatani terjemahan ke Bahasa Indonesia, 26 jan 2026
-Route::post('/bridge-translate', [TranslationBridgeController::class, 'translateToIndo'])->name('bridge.translate');
 
 
 // Rute untuk memproses data login dari form

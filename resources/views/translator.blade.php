@@ -10,7 +10,7 @@
             <!-- BARU: Container Flex untuk Judul dan Tombol -->
             <div class="flex items-center justify-between flex-wrap gap-4"> 
     <h1 class="font-bold text-white flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base">
-        <span class="whitespace-nowrap">Penerjemah <span class="kamuskambera">Indonesia</span></span>
+        <span class="whitespace-nowrap">Penerjemah&nbsp;<span class="kamuskambera">Indonesia</span></span>
         
         <svg class="w-6 h-6 text-green-400 flex-shrink-0 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -50,7 +50,7 @@
                 <div id="left-column" class="flex-1">
 				<div class="flex items-center justify-between mb-1">
                     <label for="input-text" id="input-label" class="block text-sm font-semibold text-gray-700 mb-1">
-                        Teks Sumber&nbsp;<span class="kamuskambera">( Indonesia )</span>
+                        Teks Sumber&nbsp;(&nbsp;<span class="kamuskambera">Indonesia</span>&nbsp;)
                     </label>
 					<!-- BARU: Tombol Suara Input -->
                         <button id="speak-input-button" title="Bacakan Teks Indonesia" class="text-gray-500 hover:text-green-600 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
@@ -303,7 +303,6 @@
         // --- Elemen Utama ---
         const inputTextarea = document.getElementById('input-text');
         const outputTextarea = document.getElementById('output-text');
-		const sourceLangName = document.querySelectorAll('.kamuskambera');
 		
 		const targetLangName = document.getElementById('target-lang-name');
 		const speakInputButton = document.getElementById('speak-input-button');
@@ -662,13 +661,13 @@
 				const observer = new MutationObserver((mutations) => {
 					mutations.forEach((mutation) => {
 						const teksBaru = ghost.innerText.trim();
-						if (teksBaru !== "") { 
+						if (teksBaru !== "") {
 							// 1. Salin teks yang SUDAH diterjemahkan ke inputForeign
 							inputForeign.value = teksBaru;
 							
 							// 2. Berhenti mengamati jika sudah dapat hasilnya
 							observer.disconnect(); 
-							
+						
 						}
 					});
 				});
@@ -683,17 +682,27 @@
 				
 			}
 			
-			sourceLangName.forEach(el => {
-				el.textContent = '( '+window.namabahasa+' )';
-			});
-			
 			//baca otomatis
 			//if(outputTextarea.value !== ""){
 			//	speakText(outputTextarea.value, 'speak-output-button');
 			//}
 		}
 
-		// 5. Listener Input (Biarkan satu saja, tidak perlu diubah-ubah)
+		// 5.Fungsi penerjemah langsung dari browser ke googletranslate --29/09/2026
+		async function translateDirect(text) {
+			if (!text || text.trim() === '') return '';
+			
+			//jalur khusus (URL API) ke server google
+			const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=id&dt=t&q=${encodeURIComponent(text)}`;
+			
+			//panggil URL API untuk menerjemahkan text
+			const response = await fetch(url);
+			const data = await response.json();
+			
+			// Menggabungkan baris teks hasil terjemahan dari Google
+			return data[0].map(item => item[0]).join('');
+		}
+		
 		inputForeign.addEventListener('input', debounce(async function() {
 		const textToTranslate = inputForeign.value.trim();
 		
@@ -709,24 +718,17 @@
 		}
 
 		try {
-			const response = await fetch("{{ route('bridge.translate') }}", {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-				},
-				body: JSON.stringify({ text: textToTranslate })
-			});
+			// Panggil terjemahan langsung tanpa perantara stichoza
+			const hasilTerjemahan = await translateDirect(textToTranslate);
 
-			const data = await response.json();
-			if (data.status === 'success') {
-				translationCache[textToTranslate] = data.translated;
-				inputTextarea.value = data.translated;
+			if (hasilTerjemahan) {
+				translationCache[textToTranslate] = hasilTerjemahan;
+				inputTextarea.value = hasilTerjemahan;
 				
 				handleInputChange();
 			}
 		} catch (error) {
-			console.error('Bridge Error:', error);
+			console.error('Translation Error:', error);
 		}
 	}, 350));
 	

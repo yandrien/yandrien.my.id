@@ -20,7 +20,7 @@
     <script src="https://cdn.tailwindcss.com"></script>-->
 	@vite(['resources/css/app.css', 'resources/js/app.js'])
 	
-    <!-- Font Awesome untuk ikon media sosial -->
+	<!-- Font Awesome untuk ikon media sosial -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Pengaturan font Inter -->
     <style>
@@ -36,7 +36,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #f0fdf4; /* Warna latar belakang hijau sangat muda */
 			
-			/* Mengatur zoom menjadi 75%
+			/* Mengatur zoom menjadi 75% 
         zoom: 0.75;
         /* Untuk Firefox (Firefox tidak mendukung 'zoom', maka gunakan scale) */
         -moz-transform: scale(0.75);
@@ -175,6 +175,7 @@
 						</div>
 					@endif
 					
+					<!-- Nama pengguna sudah dihapus sesuai permintaan Suhu -->
 				</div>
 			@endauth
 
@@ -228,7 +229,7 @@
 						<a href="{{ route('translator.index')}}" class="flex items-center py-1 hover:text-green-600 transition duration-300">
 							<span class="mr-2 text-green-500">•</span> Translator Sumba
 						</a>
-						<a href="https://toko.yandrien.my.id" target="blank" class="flex items-center py-1 hover:text-green-600 transition duration-300">
+						<a href="http://localhost/isales/" target="blank" class="flex items-center py-1 hover:text-green-600 transition duration-300">
 							<span class="mr-2 text-green-500">•</span> iSales
 						</a>
 					</div>
@@ -269,7 +270,7 @@
 			</button>
 			<div class="absolute hidden group-hover:block bg-black shadow-lg rounded-md w-48 py-2 text-white font-semibold z-50">
 			<a href="{{ route('translator.index') }}" class="block px-4 py-2 hover:text-green-300 transition duration-300 text-sm transform hover:scale-105">Translator Sumba</a>
-			<a href="https://toko.yandrien.my.id" target="blank" class="block px-4 py-2 hover:text-green-300 transition duration-300 text-sm transform hover:scale-105">iSales</a>
+			<a href="http://localhost/isales/" target="blank" class="block px-4 py-2 hover:text-green-300 transition duration-300 text-sm transform hover:scale-105">iSales</a>
 			</div>
 			</div>
 			<a data-key="nav_contact" href="#" id="contact-link" class="text-white hover:text-green-300 font-semibold transition duration-300 text-sm transform hover:scale-105">Kontak</a>
@@ -361,7 +362,7 @@
 	
 	
 
-    <!-- FOOTER: Bagian bawah berisi informasi kontak dan hak cipta -->
+   <!-- FOOTER: Bagian bawah berisi informasi kontak dan hak cipta -->
    <footer class="bg-green-900 text-white py-12 mt-16 rounded-t-xl relative overflow-hidden">
     
     @if(isset($unique_visitors))
@@ -401,11 +402,11 @@
 
     <div class="container mx-auto px-4 text-center">
         <h3 class="text-xl font-bold mb-4">Yandrien Wohangara</h3>
-        <div class="flex justify-center items-center space-x-6 mb-6">
+		<div class="flex justify-center items-center space-x-6 mb-6">
             <a href="https://www.facebook.com/yandrien wohangara" target="_blank" class="text-white hover:text-green-300 transition-colors duration-300">
                 <i class="fa-brands fa-square-facebook text-4xl"></i>
             </a>
-            <a href="https://www.linkedin.com/in/yandrien-wohangara-015147a5/" target="_blank" class="text-white hover:text-green-300 transition-colors duration-300">
+            <a href="https://www.linkedin.com/in/yandrien-woha-015147a5" target="_blank" class="text-white hover:text-green-300 transition-colors duration-300">
                 <i class="fa-brands fa-linkedin-in text-4xl"></i>
             </a>
             <a href="https://www.instagram.com/yandrien" target="_blank" class="text-white hover:text-green-300 transition-colors duration-300">
@@ -962,8 +963,7 @@ if (loginForm) {
         }
         // Eksekusi saat pertama kali halaman dimuat browser
         window.addEventListener('DOMContentLoaded', handleContactModalHash);
-
-
+		
 	// =========================================================
 	//	Kirim data kontak via AJAX--29/05/2026
 	// =========================================================
@@ -972,7 +972,7 @@ if (loginForm) {
 	const successModal = document.getElementById('success-modal');
 	// Sekalian ambil modalBox-nya agar tidak perlu querySelector berulang kali
 	const successModalBox = successModal ? successModal.querySelector('.transform') : null;
-
+	
 	document.getElementById('contact-form').addEventListener('submit', async function(e) {
 		// 1. Hentikan perilaku bawaan form (mencegah refresh halaman)
 		e.preventDefault();
@@ -1080,6 +1080,7 @@ if (loginForm) {
 		}
 	});
 
+
 /////////////////Modal dipakai oleh Login dan Kontak///////////////////////
 
 // Fungsi untuk menampilkan modal dengan efek transisi
@@ -1107,7 +1108,7 @@ if (loginForm) {
 ////////////////////////////////////////////////////////////////	
 	
 //tampilkan konfirmasi pengiriman pesan kontak
-/* diganti ke cara AJAX --29/05/2026
+/* diganti ke cara AJAX --23/05/2026
 	const urlParams = new URLSearchParams(window.location.search);
 	const successMessage = "{{ session('success') }}";
 	const modalAlert = document.getElementById('success-modal');
@@ -1462,7 +1463,7 @@ async function updateContent(langCode, isInitial = false) {
     }
 }
 
-async function initializeDropdown() {
+function initializeDropdown() {
     // Selector untuk Desktop & Mobile
     const deskMenu = document.getElementById('language-list-desk-menu');
     const deskLabel = document.getElementById('button-label-desk');
@@ -1472,11 +1473,12 @@ async function initializeDropdown() {
     const mobDropdownContainer = document.getElementById('language-dropdown-mob');
     const mobButton = document.getElementById('dropdown-toggle-mob');
 
-    	// Ambil bahasa dari LocalStorage
-    let savedLang = localStorage.getItem('user_lang') || 'id-ID'; 
-    
-    
+    const savedLang = localStorage.getItem('user_lang') || 'id-ID';
     const currentLangObj = languages.find(l => l.code === savedLang);
+	
+	//label untuk translator kamus sumba kambera--30/09/2026
+	const labeltranslatorSumba = document.querySelectorAll('.kamuskambera');
+
 
     // 1. Fungsi Helper untuk Proteksi No-Translate
     const protectElement = (el) => {
@@ -1486,12 +1488,17 @@ async function initializeDropdown() {
         }
     };
 
-    [deskLabel, mobLabel, deskMenu, mobMenu].forEach(protectElement);
+    [deskLabel, mobLabel, deskMenu, mobMenu, ...labeltranslatorSumba].filter(Boolean).forEach(protectElement);
 
     // 2. Set Label Awal
     if (currentLangObj) {
         if (deskLabel) deskLabel.textContent = currentLangObj.name;
         if (mobLabel) mobLabel.textContent = currentLangObj.name;
+		
+		//sesuaikan label bahasa pada translator kambera-30/09/2026
+		labeltranslatorSumba.forEach(el => {
+			el.textContent = currentLangObj.name;
+		});
     }
 
     updateContent(savedLang, true);
@@ -1528,6 +1535,11 @@ async function initializeDropdown() {
                 // Update kedua label sekaligus
                 if (deskLabel) deskLabel.textContent = lang.name;
                 if (mobLabel) mobLabel.textContent = lang.name;
+
+				//sesuaikan label bahasa pada translator kambera-30/09/2026
+				labeltranslatorSumba.forEach(el => {
+					el.textContent = currentLangObj.name;
+				});
 
                 // Tutup dropdown mobile setelah pilih (khusus mobile)
                 if (isMobile) toggleMobileDropdown(false);
@@ -1624,7 +1636,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
         }, 'google_translate_element');
     }
-	
+
 	//menyuntikkan id dan name pada select google agar tidak ada warning di browser inspect--8/06/2026
     //awasi kemunculan elemen Google Translate secara real-time
     const observer = new MutationObserver((mutations, obs) => {
@@ -1645,7 +1657,7 @@ document.addEventListener('DOMContentLoaded', () => {
         childList: true,
         subtree: true
     });
-
+	
     function changeLanguage(kodebahasa, kodeasal, langCode) {
         
 		// 1. Ambil elemen dropdown yang dibuat otomatis oleh Google

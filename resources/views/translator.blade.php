@@ -404,35 +404,55 @@
         
         // --- LOGIKA UTAMA: FETCH DENGAN EXPONENTIAL BACKOFF ---
         async function fetchWithBackoff(url, options, maxRetries = 5) {
-            for (let attempt = 0; attempt < maxRetries; attempt++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (!response.ok) {
-                        const contentType = response.headers.get("content-type");
-                        if (contentType && contentType.indexOf("application/json") === -1 && response.status !== 204) {
-                            const errorText = await response.text();
-                            console.error("Non-JSON Response from Server:", errorText);
-                            // Ini mungkin error page Laravel, return response untuk handle di luar
-                            return response;
-                        }
-                        
-                        if (response.status >= 500 && attempt < maxRetries - 1) {
-                            throw new Error(`Server error! status: ${response.status}`);
-                        } else {
-                            return response;
-                        }
-                    }
-                    return response;
-                } catch (error) {
-                    if (attempt < maxRetries - 1) {
-                        const waitTime = Math.pow(2, attempt) * 1000 + Math.random() * 500;
-                        await delay(waitTime);
-                    } else {
-                        throw new Error(`Gagal terhubung ke API setelah ${maxRetries} kali coba. Pesan: ${error.message}`);
-                    }
-                }
-            }
-        }
+			for (let attempt = 0; attempt < maxRetries; attempt++) {
+				try {
+					const response = await fetch(url, options);
+					
+					const contentType = response.headers.get("content-type");
+					const isJson = contentType && contentType.includes("application/json");
+					
+					if (!response.ok) {
+						// Jika server merespons non-JSON (misal 419 Page Expired atau 503 saat server bangun),
+						// anggap ini sebagai gangguan sementara jika belum habis jatah retry-nya.
+						if (!isJson && response.status !== 204 && attempt < maxRetries - 1) {
+							console.warn(`Percobaan ${attempt + 1}: Server merespons non-JSON (Status: ${response.status}), mencoba ulang...`);
+							// Lempar error agar masuk keblok catch dan melakukan delay/retry
+							throw new Error(`Server mengirim respon non-JSON (Status: ${response.status})`);
+						}
+						
+						// Jika jatah retry sudah habis atau error status lainnya
+						if (!isJson) {
+							const errorText = await response.text();
+							console.error("Non-JSON Response from Server:", errorText);
+							throw new Error(`Server mengirim respon non-JSON (Status: ${response.status})`);
+						}
+						
+						if (response.status >= 500 && attempt < maxRetries - 1) {
+							throw new Error(`Server error! status: ${response.status}`);
+						} else {
+							const errorJson = isJson ? await response.json() : {};
+							throw new Error(errorJson.message || `Request gagal dengan status ${response.status}`);
+						}
+					}
+					
+					// Jika sukses dan formatnya JSON
+					if (isJson) {
+						return await response.json();
+					} else {
+						return { status: 'success' };
+					}
+					
+				} catch (error) {
+					if (attempt < maxRetries - 1) {
+						// Beri jeda waktu eksponensial (1s, 2s, 4s, dst.) untuk membangunkan server
+						const waitTime = Math.pow(2, attempt) * 1000 + Math.random() * 500;
+						await delay(waitTime);
+					} else {
+						throw new Error(`Gagal terhubung ke API setelah ${maxRetries} kali cobaan. Pesan: ${error.message}`);
+					}
+				}
+			}
+		}
 		
 		// --- LOGIKA MORFOLOGI KAMBERA (CLIENT-SIDE) ---
         function applyKamberaMorphology(sbkText) {
@@ -508,9 +528,8 @@
             };
 
             try {
-                const response = await fetchWithBackoff(translateApiUrl, requestOptions);
-                const data = await response.json();
-                
+                const data = await fetchWithBackoff(translateApiUrl, requestOptions);
+                                
                 if (data.status === 'success' && data.translation) {
                     const translatedText = data.translation;
                     
@@ -855,8 +874,7 @@
             };
 
             try {
-                const response = await fetchWithBackoff(addWordApiUrl, requestOptions);
-                const data = await response.json();
+                const data = await fetchWithBackoff(addWordApiUrl, requestOptions);
 
                 if (data.status === 'success') {
                     showNotification(`Kata "${data.word}" berhasil disimpan!`, true);
@@ -907,8 +925,7 @@
 
             try {
                 const url = `${searchWordApiUrl}?word=${encodeURIComponent(word.toLowerCase())}&mode=${mode}`;
-                const response = await fetchWithBackoff(url, { method: 'GET' });
-                const data = await response.json();
+                const data = await fetchWithBackoff(url, { method: 'GET' });
 
                 if (data.status === 'success' && data.word_pair) {
                     const pair = data.word_pair;
@@ -1017,8 +1034,7 @@
             try {
                 // Menggunakan originalId sebagai identifikasi di URL
 				 // --- PERUBAHAN KRUSIAL DI SINI: Menggunakan ID unik di URL ---
-                const response = await fetchWithBackoff(`${updateWordApiUrl}/${uniqueId}`, requestOptions);
-                const data = await response.json();
+                const data = await fetchWithBackoff(`${updateWordApiUrl}/${uniqueId}`, requestOptions);
 
                 if (data.status === 'success') {
                     showNotification(`Kata "${originalId}" berhasil diperbarui.`, true);
@@ -1074,15 +1090,15 @@
 
             try {
                 // Menggunakan idWordToDelete sebagai identifikasi di URL
-                const response = await fetchWithBackoff(`${deleteWordApiUrl}/${uniqueId}`, requestOptions);
+                const data = await fetchWithBackoff(`${deleteWordApiUrl}/${uniqueId}`, requestOptions);
                 
-                if (response.ok || response.status === 204) {
+                // Jika fetchWithBackoff sukses mengembalikan data atau status success
+                if (!data || data.status === 'success' || data.status === undefined) {
                     showNotification(`Kata "${idWordToDelete}" berhasil dihapus.`, true);
                     hideModal(deleteModal);
                     debouncedTranslate();
                 } else {
-                    const errorData = await response.json();
-                    const errorMsg = errorData.message || 'Error server saat menghapus kata.';
+                    const errorMsg = data.message || 'Error server saat menghapus kata.';
                     showNotification(`Gagal menghapus: ${errorMsg}`, false);
                     deleteConfirmationText.innerHTML = `**Gagal Hapus:** ${errorMsg}`;
                     deleteConfirmationText.classList.remove('bg-yellow-100');

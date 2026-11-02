@@ -13,6 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         //Agar middleware TrackVisitor berjalan otomatis di setiap halaman, kita harus mendaftarkannya.23/04/2026
 		$middleware->append(\App\Http\Middleware\TrackVisitor::class);
+		
+		//pengecualian proteksi CSRF translator jadi halaman tidak perlu direfres untuk token baru --29/10/2026
+		// rute POST translator dan CRUD kamus agar bebas dari error 419
+        $middleware->validateCsrfTokens(except: [
+            'api/translate',
+            'api/dictionary/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
